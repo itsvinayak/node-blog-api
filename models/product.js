@@ -12,7 +12,8 @@ class product {
   static deleteProduct(id) {
     return db.execute(`DELETE FROM product WHERE id = ${id}`);
   }
-  static order(name, price, details) {
+
+  static createpp(name, price, details) {
     return db.execute(
       `INSERT INTO product ( name, price, details) VALUES ( "${String(
         name
