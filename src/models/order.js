@@ -3,28 +3,21 @@ const db = require("../db");
 class order {
   static getSingleOrderData(id) {
     // returning a promise
-    return db.execute(`SELECT * FROM order WHERE id = ${id}`);
+    return db.execute(`SELECT * FROM test.order WHERE id = ${id}`);
   }
-  static getAllOrdersData() {
-    return db.execute("SELECT * FROM test.order");
+  static getAllOrdersData(id) {
+    return db.execute(`SELECT * FROM test.order WHERE user_id = ${id}`);
   }
 
   static deleteOrderID(id) {
-    return db.execute(`DELETE FROM order WHERE id = ${id}`);
+    return db.execute(`DELETE FROM test.order WHERE id = ${id}`);
   }
 
   static createOrder(user_id, total_price) {
     return db.execute(
-      `INSERT INTO order ( user_id, total_price) VALUES ( ${id}, " ${String(
+      `INSERT INTO test.order ( user_id, total_price) VALUES ( ${user_id}, "${String(
         total_price
-      )}"  ) `,
-      function (err, result) {
-        if (err) {
-          console.log(err);
-        }
-        console.log(result);
-        return result;
-      }
+      )}"  ) `
     );
   }
 
@@ -43,6 +36,18 @@ class order {
       "INSERT INTO order_product ( order_id, product_id, product_count) VALUES ?",
       [product_data]
     );
+  }
+
+  static getProductToOrder(order_id) {
+    return db.execute(
+      ` SELECT * FROM order_product WHERE order_id = ${order_id} `
+    );
+  }
+
+  static deleteProductFromOrder(order_id) {
+    return db.query("DELETE FROM order_product WHERE order_id = ? ", [
+      order_id,
+    ]);
   }
 }
 

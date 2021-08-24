@@ -1,26 +1,6 @@
-// const db = require("../db");
-
-// class user {
-//   static createUser(name, address, email, password) {
-//     return db.execute(
-//       `INSERT INTO user ( name, address, email, password) VALUES ( "${name}", " ${address}", " ${email}", "${password}"  )  `
-//     );
-//   }
-
-//   static getUserByEmail(email) {
-//     console.log(email);
-//     return db.execute(`select * from user where email = "${email}" `);
-//   }
-// }
-
-// module.exports = user;
-
-
-// --------------Rudransh-Changes -------------- //
-
-const db = require("../db")
-class user{
-    static create(name,address,email,password,admin) {
+const db = require("../db");
+class user {
+  static create(name, address, email, password, admin) {
     return db.execute(
         `insert into user (name, address, email, password, admin)
         values("${name}","${address}","${email}","${password}",${admin})`);      
@@ -30,7 +10,7 @@ class user{
              }
     static getUserByUserId(id){
        return db.execute(
-            `select name, address, email from user where id = ${id}` );
+            `select * from user where id = ${id}` );
     }
     static updateUser(id,name,address,email,password){
         return db.execute(
