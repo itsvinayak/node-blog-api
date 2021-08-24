@@ -48,7 +48,7 @@ module.exports.createUser = (req, res, next) => {
     const salt = genSaltSync(10);
     body.password = hashSync(body.password, salt); //This technique is used for encrypting password
     userModel
-        .create(body).then(([rows, metadata]) => {
+        .create(req.body.name,req.body.address,req.body.email,req.body.password,req.body.admin).then(([rows, metadata]) => {
             res.status(200).json(JSON.stringify(rows))
         }).catch((err) => {
             console.log(err),
@@ -60,9 +60,10 @@ module.exports.createUser = (req, res, next) => {
         );
 };
 module.exports.getUserByUserId = (req, res, next) => {
-    const id = req.param.id;
+    const id1 = req.params.id
+    console.log(id1);
     userModel
-        .getUserByUserId(id).then(([rows, metadata]) => {
+        .getUserByUserId(id1).then(([rows, metadata]) => {
             res.status(200).json(JSON.stringify(rows))
         }
         ).catch((err) => {
@@ -83,7 +84,7 @@ module.exports.updateUser = (req, res) => {
     const salt = genSaltSync(10);
     body.password = hashSync(body.password, salt); 
     userModel
-    .updateUser().then(([rows,metadata]) => {
+    .updateUser(req.params.id,req.body.name,req.body.address,req.body.email,req.body.password).then(([rows,metadata]) => {
         res.status(200).send({
             success: 1,
             message: "Updation successful"
@@ -96,9 +97,9 @@ module.exports.updateUser = (req, res) => {
     });
 };
 module.exports.deleteUser = (req, res) => {
-        const data = req.body;
+        const id1 = req.params.id;
         userModel
-        .deleteUser(data).then(([rows,metadata]) => {
+        .deleteUser(id1).then(([rows,metadata]) => {
             res.status(200).send({
                 success: 1,
                 message: "Record deleted successfully"
