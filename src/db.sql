@@ -57,7 +57,7 @@ CREATE TABLE `order` (
   PRIMARY KEY (`id`),
   KEY `user_id_idx` (`user_id`),
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,6 +66,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
+INSERT INTO `order` VALUES (11,5,'7'),(12,5,'6');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +87,7 @@ CREATE TABLE `order_product` (
   KEY `product_id_idx` (`product_id`),
   CONSTRAINT `order` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +96,36 @@ CREATE TABLE `order_product` (
 
 LOCK TABLES `order_product` WRITE;
 /*!40000 ALTER TABLE `order_product` DISABLE KEYS */;
+INSERT INTO `order_product` VALUES (8,11,4,2),(9,11,6,3),(10,11,7,2),(11,12,4,2),(12,12,6,2),(13,12,7,2);
 /*!40000 ALTER TABLE `order_product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payment_status`
+--
+
+DROP TABLE IF EXISTS `payment_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `payment_status` (
+  `request_id` int NOT NULL,
+  `payment_mode` varchar(45) DEFAULT NULL,
+  `total_price` varchar(45) DEFAULT NULL,
+  `order_id` int DEFAULT NULL,
+  `status` tinyint DEFAULT '0',
+  PRIMARY KEY (`request_id`),
+  KEY `order_idx` (`order_id`),
+  CONSTRAINT `order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payment_status`
+--
+
+LOCK TABLES `payment_status` WRITE;
+/*!40000 ALTER TABLE `payment_status` DISABLE KEYS */;
+/*!40000 ALTER TABLE `payment_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -172,7 +202,7 @@ CREATE TABLE `user` (
   `password` varchar(225) NOT NULL,
   `admin` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +211,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'vinayak','bxyuh','itssvinayak@gmail.com','vinayak',1),(2,'skjhwi','jkwdn','ihb@gmil.com','sss',0);
+INSERT INTO `user` VALUES (1,'vinayak','bxyuh','itssvinayak@gmail.com','vinayak',1),(2,'skjhwi','jkwdn','ihb@gmil.com','sss',0),(3,'heheh','abc','itssvinayak@gmail.com','$2a$04$fkucpFFHDWVMfYlKa8483Ocy0um0FX.PkZRAhsVjjnqjHBMajXea6',0),(4,'heheh','abc','itssvinayak@gmail.com','$2a$04$2GHaPiDVIZDbclVvxqN.FuIK.KCbnXk1rhivdwCoOVrSWsjjxqNQq',0),(5,'heheh','abc','itsvinayak@gmail.com','$2a$04$CVl4OFz7pJvRYMtie/nJg.JstfpmRQLqqN6aaWgTsJuzjHivbt05u',0),(6,'su','abc','is@hm.com','$2a$04$VdCDjBdr.6kFCHe8Z6wxzOEgdM2SYACylP.pgDlzEg0DJGQOvPJkG',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,4 +258,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-24  9:33:45
+-- Dump completed on 2021-08-24 22:39:52
