@@ -21,12 +21,11 @@ class order {
     );
   }
 
-  static updateOrder(id, name, price, details) {
-    return db.execute(
-      `UPDATE order SET name = "${String(name)}" , price = "${String(
-        price
-      )}" , details = "${String(details)}" WHERE id = ${id}`
-    );
+  static updateOrder(id, price) {
+    return db.query("UPDATE test.order SET total_price = ? WHERE id = ?", [
+      price,
+      id,
+    ]);
   }
 
   static addProductToOrder(product_data) {
@@ -39,15 +38,27 @@ class order {
   }
 
   static getProductToOrder(order_id) {
-    return db.execute(
-      ` SELECT * FROM order_product WHERE order_id = ${order_id} `
+    return db.query(` SELECT * FROM order_product WHERE order_id = ?`, [
+      order_id,
+    ]);
+  }
+
+  static deleteProductFromOrder(item) {
+    return db.query(
+      "DELETE FROM order_product WHERE order_id = ? and product_id = ? ",
+      ...item
     );
   }
 
-  static deleteProductFromOrder(order_id) {
-    return db.query("DELETE FROM order_product WHERE order_id = ? ", [
-      order_id,
-    ]);
+  static deleteAllProductFromOrder(order_id) {
+    return db.query("DELETE FROM order_product WHERE order_id = ?", [order_id]);
+  }
+
+  static getProductCountFromOrder(order_id) {
+    return db.query(
+      "SELECT product_count FROM order_product WHERE order_id = ?",
+      [order_id]
+    );
   }
 }
 

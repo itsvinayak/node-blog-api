@@ -1,7 +1,5 @@
 const mysql = require("mysql2");
 
-// vinayak 
-
 // Connect to the database
 const pool = mysql.createPool({
   host: "localhost",
@@ -11,5 +9,3 @@ const pool = mysql.createPool({
 });
 
 module.exports = pool.promise();
-// const db = new Promise(pool);
-// module.exports = db;
