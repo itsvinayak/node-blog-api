@@ -1,33 +1,32 @@
 const db = require("../db");
-class user {
-  static create(name, address, email, password, admin) {
-    return db.execute(
-        `insert into user (name, address, email, password, admin)
-        values("${name}","${address}","${email}","${password}",${admin})`);      
-    }
-    static getUsers(){
-      return db.execute(`select id, name, address, email, admin from user`)
-             }
-    static getUserByUserId(id){
-       return db.execute(
-            `select * from user where id = ${id}` );
-    }
-    static updateUser(id,name,address,email,password){
-        return db.execute(
-            `update user set name="${name}", address="${address}",email="${email}", password="${password}" where id = ${id}`);        
-        }
-    static deleteUser(id){
-        return db.execute(
-            `delete from user where id = ${id}`);            
-    }
-    static getUserByUserEmail(email){
-        return db.execute(
-            `select * from user where email = "${email}" `);       
-    }
-    static signUp(name,address,email,password,admin){
-        return db.execute(
-            `insert into test.user (name, address, email, password,admin) values
-            ("${name}","${address}","${email}","${String(password)}",${admin})`);
+const dbUtil = require("../wrappers/db_wrappers")
+module.exports =  {
+  create(name, address, email, password, admin) {
+      return dbUtil.insert('user',['name', 'address', 'email', 'password', 'admin'],[name, address, email, password, admin]);
+  },
+    getUsers(){
+        const query =  dbUtil.read('user',['name', 'address', 'email', 'password', 'admin'])
+        return db.execute(query);
+             },
+    getUserByUserId(id){
+        const query = dbUtil.read('user',['name', 'address', 'email', 'password', 'admin'],id);
+        return db.execute(query);
+    },
+    updateUser(id,name,address,email,password){
+        const query = dbUtil.updateUser('user',[name,address,email,password],id);
+        return db.execute(query);
+        },
+     deleteUser(id){
+         const query = dbUtil.delete('user',id);
+         return db.execute(query);
+    },
+    getUserByUserEmail(email){
+        const query = dbUtil.read('user',['name', 'address', 'email', 'password', 'admin'],email);   
+        return db.execute(query);
+    },
+    signUp(name,address,email,password,admin){
+        return dbUtil.insert('user',['name','address','email', 'password', 'admin'],[name, address, email, String(password), admin]);
+       
 }
 }
-module.exports = user;
+

@@ -9,7 +9,8 @@ module.exports.createUser = (req, res, next) => {
   userModel
     .create(body)
     .then(([rows, metadata]) => {
-      res.status(200).json(JSON.stringify(rows));
+      res.status(200).json({success: 0000,
+data:rows});
     })
     .catch((err) => {
       console.log(err),
@@ -24,7 +25,8 @@ module.exports.getUserByUserId = (req, res, next) => {
   userModel
     .getUserByUserId(id)
     .then(([rows, metadata]) => {
-      res.status(200).json(JSON.stringify(rows));
+      res.status(200).json({success: 0000,
+data:rows});
     })
     .catch((err) => {
       res.json(400).send({
@@ -36,7 +38,8 @@ module.exports.getUsers = (req, res, next) => {
   userModel
     .getUsers()
     .then(([rows, metadata]) => {
-      res.status(200).json(JSON.stringify(rows));
+      res.status(200).json({success: 0000,
+data:rows});
     })
     .catch((err) => {
       console.log(err);
@@ -54,7 +57,7 @@ module.exports.updateUser = (req, res) => {
     userModel
   .updateUser(updateduser.id,updateduser.name,updateduser.address,updateduser.email,updateduser.password).then(([rows,metadata]) => {
       res.status(200).send({
-          success: 1,
+          success: 0000,
           message: "Updation successful"
       })}
   ).catch((err) => {
@@ -74,7 +77,7 @@ module.exports.deleteUser = (req, res) => {
   userModel
   .deleteUser(id1).then(([rows,metadata]) => {
       res.status(200).send({
-          success: 1,
+          success: 0000,
           message: "Record deleted successfully"
       })}
   ).catch((err) => { res.status(400).send({message : err })});
@@ -96,12 +99,14 @@ module.exports.login = (req, res, next) => {
         //The second parameter is the key using which we encrypt and decrypt the token,
         // the last parameter describes the validity of the token
         res.status(200).send({
-          success: 1,
+          success: 0000,
           message: "Login Successfully",
           token: jsontoken,
         });
       } else {
-        res.status(401).json({ message: "wrong password provided" });
+        res.status(401).json({ 
+          success:0000,
+          message: "wrong password provided" });
       }
     })
     .catch((err) => {
@@ -123,7 +128,9 @@ module.exports.SignUp = (req, res, next) => {
       req.body.admin
     )
     .then(([rows, metadata]) => {
-      res.status(200).json({ message: "user created successfully" });
+      res.status(200).json({
+        success: 0000,
+        message: "user created successfully" });
     })
     .catch((err) => {
       res.status(400).send({
