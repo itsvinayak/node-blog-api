@@ -38,6 +38,7 @@ module.exports.getAllOrders = (req, res, next) => {
 };
 
 module.exports.addOrder = async (req, res, next) => {
+  // verify 
   try {
     let product_id = req.body.product_id;
     let count = req.body.count;
