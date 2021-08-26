@@ -3,6 +3,15 @@ const paymentValidation = require("../utils/paymentValidation");
 const payServer = require("../utils/paymentServer");
 const orderModel = require("../models/order");
 
+
+
+// data to be given 
+// {
+//   "method": "upi",
+//   "order":12,
+//   "code": "9259888898@"
+// }
+
 const paymentMethodValidation = {
   upi: paymentValidation.upi,
   paytm: paymentValidation.paytm,
