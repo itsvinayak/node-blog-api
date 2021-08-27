@@ -1,11 +1,10 @@
-const order = require("../models/order");
 const orderModel = require("../models/order");
 const productModel = require("../models/product");
 
 const verifyOrder = (user_id, order_id) => {
   orderModel.getSingleOrder(order_id).then(([rows, metadata]) => {
     rows = rows[0];
-    if (rows.user_id == user_id) {
+    if (rows.user_id === user_id) {
       return true;
     }
     return false;
@@ -38,18 +37,18 @@ module.exports.getAllOrders = (req, res, next) => {
 };
 
 module.exports.addOrder = async (req, res, next) => {
-  // verify 
+  // verify
   try {
-    let product_id = req.body.product_id;
-    let count = req.body.count;
+    const product_id = req.body.product_id;
+    const count = req.body.count;
     let total_prices = 0;
-    let prices = await productModel.getMultipleProductPrice(product_id);
+    const prices = await productModel.getMultipleProductPrice(product_id);
     for (let i = 0; i < prices[0].length; i++) {
       total_prices += prices[0][i].price * count[i];
       console.log(total_prices);
     }
-    let order = await orderModel.createOrder(req.user.id, total_prices);
-    let order_id = order[0].insertId;
+    const order = await orderModel.createOrder(req.user.id, total_prices);
+    const order_id = order[0].insertId;
     const data = [];
     for (let i = 0; i < req.body.product_id.length; i++) {
       data.push([order_id, req.body.product_id[i], req.body.count[i]]);

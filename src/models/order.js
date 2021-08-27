@@ -5,6 +5,7 @@ class order {
     // returning a promise
     return db.execute(`SELECT * FROM test.order WHERE id = ${id}`);
   }
+
   static getAllOrdersData(id) {
     return db.execute(`SELECT * FROM test.order WHERE user_id = ${id}`);
   }
@@ -38,7 +39,7 @@ class order {
   }
 
   static getProductToOrder(order_id) {
-    return db.query(` SELECT * FROM order_product WHERE order_id = ?`, [
+    return db.query(" SELECT * FROM order_product WHERE order_id = ?", [
       order_id,
     ]);
   }

@@ -3,9 +3,7 @@ const paymentValidation = require("../utils/paymentValidation");
 const payServer = require("../utils/paymentServer");
 const orderModel = require("../models/order");
 
-
-
-// data to be given 
+// data to be given
 // {
 //   "method": "upi",
 //   "order":12,
@@ -26,8 +24,7 @@ module.exports.payment = async (req, res, next) => {
   let amount;
   try {
     data = await orderModel.getSingleOrderData(req.body.order);
-    amount=data[0][0].total_price;
-    
+    amount = data[0][0].total_price;
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: "payment failed !!" });

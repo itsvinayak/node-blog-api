@@ -13,7 +13,7 @@ class product {
   }
 
   static getAllProductsData() {
-    return db.execute(`SELECT * FROM product`);
+    return db.execute("SELECT * FROM product");
   }
 
   static deleteProduct(id) {
