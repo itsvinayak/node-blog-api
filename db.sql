@@ -18,6 +18,32 @@ USE `test`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categories` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `details` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categories`
+--
+
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (1,'jbjb','hbj');
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `last_update_product`
 --
 
@@ -66,7 +92,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (12,5,'6'),(13,5,'9'),(14,5,'9'),(15,5,'9');
+INSERT INTO `order` VALUES (12,5,'2'),(13,5,'9'),(14,5,'9'),(15,5,'9');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +113,7 @@ CREATE TABLE `order_product` (
   KEY `product_id_idx` (`product_id`),
   CONSTRAINT `order` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +122,7 @@ CREATE TABLE `order_product` (
 
 LOCK TABLES `order_product` WRITE;
 /*!40000 ALTER TABLE `order_product` DISABLE KEYS */;
-INSERT INTO `order_product` VALUES (11,12,4,2),(12,12,6,2),(13,12,7,2),(14,13,4,2),(15,13,5,3),(16,13,6,4),(17,14,4,2),(18,14,5,3),(19,14,6,4),(20,15,4,2),(21,15,5,3),(22,15,6,4);
+INSERT INTO `order_product` VALUES (12,12,6,2),(14,13,4,2),(15,13,5,3),(16,13,6,4),(17,14,4,2),(18,14,5,3),(19,14,6,4),(20,15,4,2),(21,15,5,3),(22,15,6,4);
 /*!40000 ALTER TABLE `order_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,11 +134,12 @@ DROP TABLE IF EXISTS `payment_status`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_status` (
-  `request_id` int NOT NULL,
+  `request_id` varchar(100) NOT NULL,
   `payment_mode` varchar(45) DEFAULT NULL,
   `total_price` varchar(45) DEFAULT NULL,
   `order_id` int DEFAULT NULL,
   `status` tinyint DEFAULT '0',
+  `user_id` int DEFAULT NULL,
   PRIMARY KEY (`request_id`),
   KEY `order_idx` (`order_id`),
   CONSTRAINT `order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`)
@@ -125,6 +152,7 @@ CREATE TABLE `payment_status` (
 
 LOCK TABLES `payment_status` WRITE;
 /*!40000 ALTER TABLE `payment_status` DISABLE KEYS */;
+INSERT INTO `payment_status` VALUES ('111','111','1',12,1,1),('3aa98ed6-457b-4c1e-9312-56fdf7475e9b','upi','2',12,1,5),('69cbfb70-e5cc-4387-a4b7-5c8bbccf7e86','upi','2',12,31,5),('bkdw','upi','100',12,1,1);
 /*!40000 ALTER TABLE `payment_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,32 +244,6 @@ INSERT INTO `user` VALUES (1,'vinayak','bxyuh','itssvinayak@gmail.com','vinayak'
 UNLOCK TABLES;
 
 --
--- Table structure for table `​​​categories`
---
-
-DROP TABLE IF EXISTS `categories`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `categories` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `details` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `categories`
---
-
-LOCK TABLES `categories` WRITE;
-/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'jbjb','hbj');
-/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Dumping events for database 'test'
 --
 
@@ -258,4 +260,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-26 12:44:31
+-- Dump completed on 2021-08-27  9:38:51
