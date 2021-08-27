@@ -19,7 +19,7 @@ app.use("/products", productRouters);
 app.use("/order", orderRouters);
 app.use("/user", userRouters);
 app.use("/category", categoryRouters);
-app.use("/products/:id/reviews", reviewRouters);
+app.use("/product", reviewRouters);
 
 // 404 page
 app.get((req, res, next) => {
