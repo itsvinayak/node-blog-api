@@ -1,4 +1,5 @@
-const db = require("../../db");
+const sql = require("../utils/vinayaks_sql_wrapper");
+
 class user {
   static create(name, address, email, password, admin) {
     let data = {
@@ -14,7 +15,6 @@ class user {
   static getUsers() {
     return sql.retrieve("user");
   }
-
   static getUserByUserId(id) {
     return sql.retrieveBy("user", ["id", id]);
   }

@@ -5,10 +5,6 @@ class order {
     // returning a promise
     return db.execute(`SELECT * FROM test.order WHERE id = ${id}`);
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> e0ebba909e6994f32d8b238edf2c4844bc1d3cec
   static getAllOrdersData(id) {
     return db.execute(`SELECT * FROM test.order WHERE user_id = ${id}`);
   }
@@ -42,17 +38,6 @@ class order {
   }
 
   static getProductToOrder(order_id) {
-<<<<<<< HEAD
-    return db.execute(
-      ` SELECT * FROM order_product WHERE order_id = ${order_id} `
-    );
-  }
-
-  static deleteProductFromOrder(order_id) {
-    return db.query("DELETE FROM order_product WHERE order_id = ? ", [
-      order_id,
-    ]);
-=======
     return db.query(" SELECT * FROM order_product WHERE order_id = ?", [
       order_id,
     ]);
@@ -74,7 +59,6 @@ class order {
       "SELECT product_count FROM order_product WHERE order_id = ?",
       [order_id]
     );
->>>>>>> e0ebba909e6994f32d8b238edf2c4844bc1d3cec
   }
 }
 
