@@ -88,8 +88,10 @@ module.exports.login = (req, res, next) => {
   userModel
     .getUserByUserEmail(body.email)
     .then(([rows, metadata]) => {
+      console.log("Controller");
+      // console.log(rows);
       rows = rows[0];
-      console.log(rows);
+      // console.console.log(rows.password);
       result = compareSync(body.password, rows.password);
       if (result) {
         rows.password = undefined;

@@ -2,30 +2,39 @@ const db = require("../db");
 const dbUtil = require("../wrappers/db_wrappers")
 module.exports =  {
   create(name, address, email, password, admin) {
-      return dbUtil.insert('user',['name', 'address', 'email', 'password', 'admin'],[name, address, email, password, admin]);
+    let data= {};
+    let field =['name','address','email', 'password', 'admin']
+    let input =[name,address,email,password,admin];
+    for (let i=0;i<input.length;i++)
+    {
+        data[field[i]]=input[i];
+    }
+    return dbUtil.insert('user',data);
   },
     getUsers(){
-        const query =  dbUtil.read('user',['name', 'address', 'email', 'password', 'admin'])
-        return db.execute(query);
+        return  dbUtil.read('user',['name', 'address', 'email', 'password', 'admin'])
              },
     getUserByUserId(id){
-        const query = dbUtil.read('user',['name', 'address', 'email', 'password', 'admin'],id);
-        return db.execute(query);
+        return dbUtil.read('user',['name', 'address', 'email', 'password', 'admin'],id);
     },
     updateUser(id,name,address,email,password){
-        const query = dbUtil.updateUser('user',[name,address,email,password],id);
-        return db.execute(query);
+        return dbUtil.update('user',['name', 'address', 'email', 'password'],[name,address,email,password],id);
         },
      deleteUser(id){
-         const query = dbUtil.delete('user',id);
-         return db.execute(query);
+         return dbUtil.drop('user',id);
     },
     getUserByUserEmail(email){
-        const query = dbUtil.read('user',['name', 'address', 'email', 'password', 'admin'],email);   
-        return db.execute(query);
+        return dbUtil.read('user',['name', 'address', 'email', 'password', 'admin'],email);   
     },
     signUp(name,address,email,password,admin){
-        return dbUtil.insert('user',['name','address','email', 'password', 'admin'],[name, address, email, String(password), admin]);
+        let data= {};
+        let field =['name','address','email', 'password', 'admin']
+        let input =[name,address,email,password,admin];
+        for (let i=0;i<input.length;i++)
+        {
+            data[field[i]]=input[i];
+        }
+        return dbUtil.insert('user',data);
        
 }
 }
