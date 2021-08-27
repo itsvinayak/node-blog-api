@@ -1,8 +1,8 @@
 const express = require("express");
-const productRouters = require("./routes/productRoutes");
-const orderRouters = require("./routes/orderRoutes");
-const userRouters = require("./routes/userRoutes");
-const paymentRouters = require("./routes/paymentRoutes");
+const productRouters = require("./src/routes/productRoutes");
+const orderRouters = require("./src/routes/orderRoutes");
+const userRouters = require("./src/routes/userRoutes");
+const paymentRouters = require("./src/routes/paymentRoutes");
 
 // loading environment variables
 require("dotenv").config();
