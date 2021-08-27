@@ -21,6 +21,7 @@ module.exports.addCategory = (req, res) => {
       })
     );
 };
+
 module.exports.updateCategory = (req, res) => {
   categoryModel
   .updateCategory(req.params.id, req.body.name, req.body.details)
