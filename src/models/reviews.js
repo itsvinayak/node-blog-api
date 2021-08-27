@@ -3,22 +3,22 @@ const db = require("../db");
 class review{
     static getAllReviewsData() {
       return db.execute(
-        `SELECT rating, review_detail 
+        `SELECT *
         FROM reviews`
       );
     }
     
-    static createReview( rating, review_detail) {
+    static createReview(id, rating, details) {
       return db.execute(
-        `INSERT INTO reviews (  rating, review_detail) 
-        VALUES ("${String(rating)}", "${String(review_detail)}")`
+        `INSERT INTO reviews (product_id, rating, details) 
+        VALUES ("${String(id)}", "${String(rating)}", "${String(details)}")`
       );
     }
     
-    static updateReview(rvid, rating, review_detail) {
+    static updateReview(rvid, rating, details) {
       return db.execute(
         `UPDATE reviews 
-        SET rating = "${String(rating)}", review_detail = "${String(review_detail)}" 
+        SET rating = "${String(rating)}", details = "${String(details)}" 
         WHERE id = ${rvid}`
       );
     }

@@ -12,18 +12,20 @@ module.exports.getAllReviews = (req, res) => {
 }
 
 module.exports.addReview = (req, res) => {
+  console.log(req.params);
     reviewModel
-    .createReview( req.body.rating, req.body.review_detail)
+    .createReview(req.params.id, req.body.rating, req.body.details)
     .then(res.status(201).json({ message: "review created" }))
     .catch((err) =>
       res.status(400).send({
         message: err,
       })
     );
-};
+}; 
+
 module.exports.updateReview = (req, res) => {
-    reviewModel
-  .updateReview(req.params.rvid, req.body.rating, req.body.review_detail)
+  reviewModel
+  .updateReview(req.params.rvid, req.body.rating, req.body.details)
   .then(res.status(200).json({ message: "review updated" }))
   .catch((err) =>
     res.status(400).send({
