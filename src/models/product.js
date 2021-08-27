@@ -1,39 +1,43 @@
 const db = require("../../db");
+const sql = require("../utils/vinayaks_sql_wrapper");
 
 class product {
   static getSingleProductData(id) {
     // returning a promise
-    return db.execute(`SELECT * FROM product WHERE id = ${id}`);
+    return sql.retrieveBy("product", ["id", id]);
   }
 
   static getMultipleProductPrice(ids) {
     ids = ids.join(",");
-    console.log(ids);
-    return db.execute(`SELECT price FROM product WHERE id IN  (${ids}) `);
+    return db.query(`SELECT price FROM product WHERE id IN  (?) `, [ids]);
   }
 
   static getAllProductsData() {
-    return db.execute("SELECT * FROM product");
+    return sql.retrieve("product");
   }
 
   static deleteProduct(id) {
-    return db.execute(`DELETE FROM product WHERE id = ${id}`);
+    return sql.delete("product", ["id", id]);
   }
 
   static createProduct(name, price, details) {
-    return db.execute(
-      `INSERT INTO product ( name, price, details) VALUES ( "${String(
-        name
-      )}", " ${String(price)}", " ${String(details)}"  )  `
-    );
+    let data = {
+      name: name,
+      price: price,
+      details: details,
+    };
+
+    return sql.create("product", data);
   }
 
   static updateProduct(id, name, price, details) {
-    return db.execute(
-      `UPDATE product SET name = "${String(name)}" , price = "${String(
-        price
-      )}" , details = "${String(details)}" WHERE id = ${id}`
-    );
+    let data = {
+      name: name,
+      price: price,
+      details: details,
+    };
+
+    return sql.update("product", data, ["id", id]);
   }
 }
 
