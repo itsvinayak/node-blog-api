@@ -1,32 +1,52 @@
-const db = require("../db");
-const dbUtil = require("../wrappers/db_wrappers")
-module.exports =  {
-  create(name, address, email, password, admin) {
-      return dbUtil.insert('user',['name', 'address', 'email', 'password', 'admin'],[name, address, email, password, admin]);
-  },
-    getUsers(){
-        const query =  dbUtil.read('user',['name', 'address', 'email', 'password', 'admin'])
-        return db.execute(query);
-             },
-    getUserByUserId(id){
-        const query = dbUtil.read('user',['name', 'address', 'email', 'password', 'admin'],id);
-        return db.execute(query);
-    },
-    updateUser(id,name,address,email,password){
-        const query = dbUtil.updateUser('user',[name,address,email,password],id);
-        return db.execute(query);
-        },
-     deleteUser(id){
-         const query = dbUtil.delete('user',id);
-         return db.execute(query);
-    },
-    getUserByUserEmail(email){
-        const query = dbUtil.read('user',['name', 'address', 'email', 'password', 'admin'],email);   
-        return db.execute(query);
-    },
-    signUp(name,address,email,password,admin){
-        return dbUtil.insert('user',['name','address','email', 'password', 'admin'],[name, address, email, String(password), admin]);
-       
-}
-}
+const db = require("../../db");
+class user {
+  static create(name, address, email, password, admin) {
+    let data = {
+      name: name,
+      address:address,
+      email:email,
+      password:password,
+      admin:admin
+    };
+    return sql.create("user", data);
+  }
 
+  static getUsers() {
+    return sql.retrieve("user");
+  }
+
+  static getUserByUserId(id) {
+    return sql.retrieveBy("user", ["id", id]);
+  }
+
+  static updateUser(id,name, address, email, password) {
+    let data = {
+      name: name,
+      address:address,
+      email:email,
+      password:password
+    };
+    return sql.update("user", data, ["id", id]);
+  }
+
+  static deleteUser(id) {
+    return sql.delete("user", ["id", id]);
+  }
+
+  static getUserByUserEmail(email) {
+    return sql.retrieveBy("user", ["email", email]);
+  }
+
+  static signUp(name, address, email, password, admin) {
+    let data = {
+      name: name,
+      address:address,
+      email:email,
+      password:password,
+      admin:admin
+    };
+
+    return sql.create("user", data);
+  }
+}
+module.exports = user;

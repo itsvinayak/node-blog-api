@@ -18,7 +18,11 @@ module.exports.auth = (req, res, next) => {
         });
       } else {
         req.user = decoded.rows;
+<<<<<<< HEAD
         console.log(decoded);
+=======
+        // console.log(decoded);
+>>>>>>> e0ebba909e6994f32d8b238edf2c4844bc1d3cec
         next();
       }
     });

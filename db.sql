@@ -18,6 +18,32 @@ USE `test`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categories` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `details` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categories`
+--
+
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (1,'jbjb','hbj');
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `last_update_product`
 --
 
@@ -57,7 +83,11 @@ CREATE TABLE `order` (
   PRIMARY KEY (`id`),
   KEY `user_id_idx` (`user_id`),
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+<<<<<<< HEAD
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+>>>>>>> e0ebba909e6994f32d8b238edf2c4844bc1d3cec
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,6 +96,10 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
+<<<<<<< HEAD
+=======
+INSERT INTO `order` VALUES (12,5,'2'),(13,5,'9'),(14,5,'9'),(15,5,'9');
+>>>>>>> e0ebba909e6994f32d8b238edf2c4844bc1d3cec
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +120,11 @@ CREATE TABLE `order_product` (
   KEY `product_id_idx` (`product_id`),
   CONSTRAINT `order` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+<<<<<<< HEAD
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+=======
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+>>>>>>> e0ebba909e6994f32d8b238edf2c4844bc1d3cec
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +133,38 @@ CREATE TABLE `order_product` (
 
 LOCK TABLES `order_product` WRITE;
 /*!40000 ALTER TABLE `order_product` DISABLE KEYS */;
+INSERT INTO `order_product` VALUES (12,12,6,2),(14,13,4,2),(15,13,5,3),(16,13,6,4),(17,14,4,2),(18,14,5,3),(19,14,6,4),(20,15,4,2),(21,15,5,3),(22,15,6,4);
 /*!40000 ALTER TABLE `order_product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `payment_status`
+--
+
+DROP TABLE IF EXISTS `payment_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `payment_status` (
+  `request_id` varchar(100) NOT NULL,
+  `payment_mode` varchar(45) DEFAULT NULL,
+  `total_price` varchar(45) DEFAULT NULL,
+  `order_id` int DEFAULT NULL,
+  `status` tinyint DEFAULT '0',
+  `user_id` int DEFAULT NULL,
+  PRIMARY KEY (`request_id`),
+  KEY `order_idx` (`order_id`),
+  CONSTRAINT `order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `payment_status`
+--
+
+LOCK TABLES `payment_status` WRITE;
+/*!40000 ALTER TABLE `payment_status` DISABLE KEYS */;
+INSERT INTO `payment_status` VALUES ('111','111','1',12,1,1),('3aa98ed6-457b-4c1e-9312-56fdf7475e9b','upi','2',12,1,5),('69cbfb70-e5cc-4387-a4b7-5c8bbccf7e86','upi','2',12,31,5),('bkdw','upi','100',12,1,1);
+/*!40000 ALTER TABLE `payment_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -110,11 +179,10 @@ CREATE TABLE `product` (
   `name` varchar(45) DEFAULT NULL,
   `price` varchar(50) DEFAULT NULL,
   `details` varchar(100) DEFAULT NULL,
-  `​​category` int DEFAULT NULL,
-  `cost` int DEFAULT NULL,
+  `category` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `​​category_idx` (`​​category`),
-  CONSTRAINT `​​category` FOREIGN KEY (`​​category`) REFERENCES `​​categories` (`id`)
+  KEY `​​category_idx` (`category`),
+  CONSTRAINT `category` FOREIGN KEY (`category`) REFERENCES `categories` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -124,7 +192,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (4,'fge','1','fs',NULL,NULL),(5,'fge','1',NULL,NULL,NULL),(6,'fge','1',NULL,NULL,NULL),(7,'fge','1',NULL,NULL,NULL),(8,'vinayak','150','nice man',NULL,NULL),(9,'villllnayak',' 150',' nice man',NULL,NULL),(10,'coool mobile',' 10000',' coolest mobile for high cost',NULL,NULL);
+INSERT INTO `product` VALUES (4,'fge','1','fs',NULL),(5,'fge','1',NULL,NULL),(6,'fge','1',NULL,NULL),(7,'fge','1',NULL,NULL),(8,'vinayak','150','nice man',NULL),(9,'villllnayak',' 150',' nice man',NULL),(10,'coool mobile',' 10000',' coolest mobile for high cost',NULL);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,9 +205,10 @@ DROP TABLE IF EXISTS `reviews`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reviews` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `product_id` int DEFAULT NULL,
-  `text` varchar(100) NOT NULL,
+  `user_id` int NOT NULL,
+  `product_id` int NOT NULL,
+  `details` varchar(100) DEFAULT NULL,
+  `rating` varchar(3) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id_idx` (`user_id`),
   KEY `product_id_idx` (`product_id`),
@@ -172,7 +241,7 @@ CREATE TABLE `user` (
   `password` varchar(225) NOT NULL,
   `admin` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,34 +250,8 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'vinayak','bxyuh','itssvinayak@gmail.com','vinayak',1),(2,'skjhwi','jkwdn','ihb@gmil.com','sss',0);
+INSERT INTO `user` VALUES (1,'vinayak','bxyuh','itssvinayak@gmail.com','vinayak',1),(2,'skjhwi','jkwdn','ihb@gmil.com','sss',0),(3,'heheh','abc','itssvinayak@gmail.com','$2a$04$fkucpFFHDWVMfYlKa8483Ocy0um0FX.PkZRAhsVjjnqjHBMajXea6',0),(4,'heheh','abc','itssvinayak@gmail.com','$2a$04$2GHaPiDVIZDbclVvxqN.FuIK.KCbnXk1rhivdwCoOVrSWsjjxqNQq',0),(5,'heheh','abc','itsvinayak@gmail.com','$2a$04$CVl4OFz7pJvRYMtie/nJg.JstfpmRQLqqN6aaWgTsJuzjHivbt05u',0),(6,'su','abc','is@hm.com','$2a$04$VdCDjBdr.6kFCHe8Z6wxzOEgdM2SYACylP.pgDlzEg0DJGQOvPJkG',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `​​categories`
---
-
-DROP TABLE IF EXISTS `​​categories`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `​​categories` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `details` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `​​categories`
---
-
-LOCK TABLES `​​categories` WRITE;
-/*!40000 ALTER TABLE `​​categories` DISABLE KEYS */;
-INSERT INTO `​​categories` VALUES (1,'jbjb','hbj');
-/*!40000 ALTER TABLE `​​categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -228,4 +271,8 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+<<<<<<< HEAD
 -- Dump completed on 2021-08-24  9:33:45
+=======
+-- Dump completed on 2021-08-27  9:38:51
+>>>>>>> e0ebba909e6994f32d8b238edf2c4844bc1d3cec

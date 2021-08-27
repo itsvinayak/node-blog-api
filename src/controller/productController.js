@@ -44,10 +44,14 @@ module.exports.deleteProduct = (req, res, next) => {
     );
 };
 
-
 module.exports.updateProduct = (req, res, next) => {
   productModel
-    .updateProduct(req.params.id, req.body.name, req.body.price, req.body.details)
+    .updateProduct(
+      req.params.id,
+      req.body.name,
+      req.body.price,
+      req.body.details
+    )
     .then(res.status(200).json({ message: "product updated" }))
     .catch((err) =>
       res.status(400).send({
