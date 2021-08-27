@@ -10,7 +10,7 @@ const orderModel = require("../models/order");
 //   "code": "9259888898@"
 // }
 
-const paymentMethodValidation = {
+const paymentMethodValidation = {  //object with fuction to check for validation of payment method
   upi: paymentValidation.upi,
   paytm: paymentValidation.paytm,
   creditCard: paymentValidation.creditCard,
@@ -23,7 +23,7 @@ module.exports.payment = async (req, res, next) => {
   let status = 0;
   let amount;
   try {
-    data = await orderModel.getSingleOrderData(req.body.order);
+    data = await orderModel.getSingleOrderData(req.body.order);//to get total price of order
     amount = data[0][0].total_price;
   } catch (err) {
     console.log(err);
@@ -32,7 +32,7 @@ module.exports.payment = async (req, res, next) => {
   const valid = await paymentMethodValidation[req.body.method](req.body.code);
   if (valid) {
     try {
-      server_data = await payServer.paymentServer(
+      server_data = await payServer.paymentServer( 
         req.body.method,
         req.body.code,
         amount
@@ -44,7 +44,7 @@ module.exports.payment = async (req, res, next) => {
     server_hash = server_data[0];
     status = server_data[1];
     try {
-      await paymentModel.paymentStatus([
+      await paymentModel.paymentStatus([ // to fill paymentStatus table with final status and all details
         server_hash,
         req.body.method,
         amount,
@@ -60,4 +60,17 @@ module.exports.payment = async (req, res, next) => {
   } else {
     res.status(400).json({ message: "payment failed !! code invalid" });
   }
+};
+
+module.exports.displayPaymentdetails = (req, res, next) => {
+  console.log(paymentModel.getPayment);
+  paymentModel.getPayment()
+    .then(([rows, metadata]) =>{
+      console.log(rows);
+     res.status(200).send(JSON.stringify(rows))})
+    .catch((err) =>
+      res.status(400).send({
+        message: err,
+      })
+    );
 };

@@ -1,4 +1,4 @@
-module.exports.upi = (paymentCode) => {
+module.exports.upi = (paymentCode) => { //vvalidation of payment method based on code
   if (paymentCode.length === 11) {
     return true;
   }

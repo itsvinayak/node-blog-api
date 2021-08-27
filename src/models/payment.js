@@ -8,6 +8,11 @@ class payment {
       [...data]
     );
   }
+  static getPayment()
+{
+return db.execute('SELECT * FROM payment_status');
 }
+}
+
 
 module.exports = payment;
