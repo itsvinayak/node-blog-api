@@ -1,5 +1,5 @@
 // CRUD
-const db = require("../../db");
+const db = require("../../sql_db");
 
 module.exports.create = (table, data) => {
   // data = { name: 'vinayak', age: '23' }

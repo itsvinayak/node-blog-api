@@ -1,4 +1,4 @@
-const db = require("../../db");
+const db = require("../../../sql_db");
 
 class order {
   static getSingleOrderData(id) {

@@ -1,4 +1,4 @@
-const productModel = require("../models/product");
+const productModel = require("../models/sql/product");
 
 module.exports.getSingleProduct = (req, res, next) => {
   productModel

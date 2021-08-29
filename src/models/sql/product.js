@@ -1,4 +1,3 @@
-const db = require("../../db");
 const sql = require("../utils/vinayaks_sql_wrapper");
 
 class product {

@@ -1,5 +1,5 @@
-const orderModel = require("../models/order");
-const productModel = require("../models/product");
+const orderModel = require("../models/sql/order");
+const productModel = require("../models/sql/product");
 
 const verifyOrder = (user_id, order_id) => {
   orderModel.getSingleOrder(order_id).then(([rows, metadata]) => {

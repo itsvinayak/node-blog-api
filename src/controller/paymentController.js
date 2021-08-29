@@ -1,7 +1,7 @@
-const paymentModel = require("../models/payment");
+const paymentModel = require("../models/sql/payment");
 const paymentValidation = require("../utils/paymentValidation");
 const payServer = require("../utils/paymentServer");
-const orderModel = require("../models/order");
+const orderModel = require("../models/sql/order");
 
 // data to be given
 // {

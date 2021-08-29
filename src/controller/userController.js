@@ -1,6 +1,6 @@
 const { genSaltSync, hashSync, compareSync } = require("bcryptjs");
 const { sign } = require("jsonwebtoken"); // This function is used to generate the token
-const userModel = require("../models/user");
+const userModel = require("../models/sql/user");
 
 module.exports.createUser = (req, res, next) => {
   const body = req.body;
@@ -27,7 +27,7 @@ module.exports.getUserByUserId = (req, res, next) => {
       res.status(200).json(JSON.stringify(rows));
     })
     .catch((err) => {
-      res.json(400).send({
+      res.status(400).send({
         message: err,
       });
     });
