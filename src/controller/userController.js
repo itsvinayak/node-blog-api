@@ -1,5 +1,5 @@
 const { genSaltSync, hashSync, compareSync } = require("bcryptjs");
-const { sign } = require("jsonwebtoken"); // This function is used to generate the token
+const { sign } = require("jsonwebtoken");
 const userModel = require("../models/user");
 
 module.exports.createUser = (req, res, next) => {
@@ -20,14 +20,15 @@ module.exports.createUser = (req, res, next) => {
     });
 };
 module.exports.getUserByUserId = (req, res, next) => {
-  const id = req.param.id;
+  const id = req.params.id;
+  console.log(id);
   userModel
     .getUserByUserId(id)
     .then(([rows, metadata]) => {
       res.status(200).json(JSON.stringify(rows));
     })
     .catch((err) => {
-      res.json(400).send({
+      res.status(400).send({
         message: err,
       });
     });
@@ -51,7 +52,7 @@ module.exports.updateUser = (req, res, next) => {
     .then(([rows, metadata]) => {
       res.status(200).send({
         success: 1,
-        message: "Updation successful",
+        message: "Updated successfully",
       });
     })
     .catch((err) => {
@@ -62,9 +63,8 @@ module.exports.updateUser = (req, res, next) => {
     });
 };
 module.exports.deleteUser = (req, res, next) => {
-  const data = req.body;
   userModel
-    .deleteUser(data)
+    .deleteUser(req.params.id)
     .then(([rows, metadata]) => {
       res.status(200).send({
         success: 1,

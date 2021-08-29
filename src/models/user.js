@@ -1,41 +1,52 @@
-const db = require("../../db");
+const sql = require("../utils/vinayaks_sql_wrapper");
+
 class user {
   static create(name, address, email, password, admin) {
-    return db.execute(
-      `insert into user (name, address, email, password, admin)
-        values("${name}","${address}","${email}","${password}","${admin}")`
-    );
+    let data = {
+      name: name,
+      address: address,
+      email: email,
+      password: password,
+      admin: admin,
+    };
+    return sql.create("user", data);
   }
 
   static getUsers() {
-    return db.execute("select id, name, address, email,admin from user");
+    return sql.retrieve("user");
   }
-
   static getUserByUserId(id) {
-    return db.execute(
-      `select id, name, address, email from user where id="${id}"`
-    );
+    return sql.retrieveBy("user", ["id", id]);
   }
 
-  static updateUser(name, address, email, password) {
-    return db.execute(
-      `update user set name="${name}", address="${address}",email="${email}", password="${password}" where email = "${email}"`
-    );
+  static updateUser(id, name, address, email, password) {
+    let data = {
+      name: name,
+      address: address,
+      email: email,
+      password: password,
+    };
+    return sql.update("user", data, ["id", id]);
   }
 
   static deleteUser(id) {
-    return db.execute(`delete from user where id="${id}"`);
+    return sql.delete("user", ["id", id]);
   }
 
   static getUserByUserEmail(email) {
-    return db.execute(`select * from user where email = "${email}" `);
+    return sql.retrieveBy("user", ["email", email]);
   }
 
   static signUp(name, address, email, password, admin) {
-    return db.execute(
-      `insert into test.user (name, address, email, password,admin) values
-            ("${name}","${address}","${email}","${String(password)}",${admin})`
-    );
+    let data = {
+      name: name,
+      address: address,
+      email: email,
+      password: password,
+      admin: admin,
+    };
+
+    return sql.create("user", data);
   }
 }
 module.exports = user;
