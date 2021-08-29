@@ -31,3 +31,17 @@ module.exports.retrieve = (table) => {
   let sql = `SELECT * FROM ${table}`;
   return db.query(sql);
 };
+
+// singleton pattern for db connections
+
+module.exports.start = () => {
+  return db.query(`START TRANSACTION`);
+};
+
+module.exports.commit = () => {
+  return db.query(`COMMIT`);
+};
+
+module.exports.rollback = () => {
+  return db.query(`ROLLBACK`);
+};

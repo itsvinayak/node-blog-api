@@ -8,7 +8,6 @@ class product {
   }
 
   static getMultipleProductPrice(ids) {
-    ids = ids.join(",");
     return db.query(`SELECT price FROM product WHERE id IN  (?) `, [ids]);
   }
 
