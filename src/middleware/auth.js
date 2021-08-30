@@ -1,7 +1,6 @@
 const { verify } = require("jsonwebtoken");
 
 module.exports.auth = (req, res, next) => {
-  // console.log(req);
   let token = req.get("authorization");
   console.log(token);
   if (!token) {
@@ -18,7 +17,6 @@ module.exports.auth = (req, res, next) => {
         });
       } else {
         req.user = decoded.rows;
-        // console.log(decoded);
         next();
       }
     });
