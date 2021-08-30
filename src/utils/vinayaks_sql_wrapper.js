@@ -12,7 +12,6 @@ module.exports.update = (table, data, by) => {
   // data = { name: 'vinayak', age: '23' }
   let sql = `UPDATE ${table} SET ? WHERE ${by[0]} = ?`;
   let id = by[1];
-  console.log(by[1]);
   return db.query(sql, [data, id]);
 };
 
