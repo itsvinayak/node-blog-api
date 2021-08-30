@@ -1,3 +1,4 @@
+const db = require("../../db");
 const { create } = require("../utils/vinayaks_sql_wrapper");
 
 class payment {
@@ -17,6 +18,10 @@ class payment {
 
     console.log(dataAndFields);
     return create("payment_status", dataAndFields);
+  }
+
+  static getAllPaymentStatus() {
+    return db.query("SELECT * FROM payment_status");
   }
 }
 

@@ -23,8 +23,12 @@ module.exports.payment = async (req, res, next) => {
   let status = 0;
   let amount;
   try {
-    data = await orderModel.getSingleOrderData(req.body.order);
+    data = await orderModel.getOrderByOrderIdAndUserId(
+      req.body.order,
+      req.user.id
+    );
     amount = data[0][0].total_price;
+    console.log(amount);
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: "payment failed !!" });
@@ -60,4 +64,18 @@ module.exports.payment = async (req, res, next) => {
   } else {
     res.status(400).json({ message: "payment failed !! code invalid" });
   }
+};
+
+module.exports.getAllPayment = (req, res, next) => {
+  paymentModel
+    .getAllPaymentStatus()
+    .then(([rows, metadata]) => {
+      console.log(rows);
+      res.status(200).send(JSON.stringify(rows));
+    })
+    .catch((err) =>
+      res.status(400).send({
+        message: err,
+      })
+    );
 };

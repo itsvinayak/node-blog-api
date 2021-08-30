@@ -5,7 +5,8 @@ const userModel = require("../models/user");
 module.exports.createUser = (req, res, next) => {
   const body = req.body;
   const salt = genSaltSync(10);
-  body.password = hashSync(body.password, salt); // This technique is used for encrypting password
+  body.password = hashSync(body.password, salt);
+  // This technique is used for encrypting password
   userModel
     .create(
       req.body.name,
@@ -60,7 +61,7 @@ module.exports.updateUser = (req, res, next) => {
       req.body.address,
       req.body.email,
       req.body.password
-      )
+    )
     .then(([rows, metadata]) => {
       console.log(rows);
       res.status(200).send({
