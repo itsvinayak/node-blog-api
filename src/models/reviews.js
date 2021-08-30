@@ -1,33 +1,32 @@
 const db = require("../db");
+const sql = require("../utils/vinayaks_sql_wrapper");
 
 class review{
     static getAllReviewsData() {
-      return db.execute(
-        `SELECT *
-        FROM reviews`
-      );
+      return sql.retrieve("reviews");
+    }
+
+    static getsingleProductReviews(id) {
+      return sql.retrieveBy("reviews", ["product_id", id]);
     }
     
-    static createReview(id, rating, details) {
-      return db.execute(
-        `INSERT INTO reviews (product_id, rating, details) 
-        VALUES ("${String(id)}", "${String(rating)}", "${String(details)}")`
-      );
+    static createReview(id, user_id, rating, details) {
+      let data = {
+        user_id, 
+        product_id: id, 
+        rating, 
+        details
+      };
+      return sql.create("reviews", data);
     }
     
     static updateReview(rvid, rating, details) {
-      return db.execute(
-        `UPDATE reviews 
-        SET rating = "${String(rating)}", details = "${String(details)}" 
-        WHERE id = ${rvid}`
-      );
+      let data = { rating, details};
+      return sql.update("reviews", data, ["id", rvid]);
     }
     
     static deleteReview(rvid) {
-      return db.execute(
-        `DELETE FROM reviews 
-        WHERE id = ${rvid}`
-      );
+      return sql.delete("reviews", ["id", rvid]);
     }
 }
 
