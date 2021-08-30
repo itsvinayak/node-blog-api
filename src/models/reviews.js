@@ -1,4 +1,4 @@
-const db = require("../db");
+const db = require("../../db");
 const sql = require("../utils/vinayaks_sql_wrapper");
 
 class review{
@@ -27,6 +27,10 @@ class review{
     
     static deleteReview(rvid) {
       return sql.delete("reviews", ["id", rvid]);
+    }
+
+    static checkuser(rvid){
+      return db.execute(`select * from reviews where id="${rvid}"`);
     }
 }
 

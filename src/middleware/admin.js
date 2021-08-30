@@ -1,7 +1,6 @@
 const { verify } = require("jsonwebtoken");
 
-module.exports.auth = (req, res, next) => {
-  // console.log(req);
+module.exports.admin = (req, res, next) => {
   let token = req.get("authorization");
   console.log(token);
   if (!token) {
@@ -16,9 +15,12 @@ module.exports.auth = (req, res, next) => {
         res.status(401).json({
           message: "Invalid token",
         });
+      } else if (decoded.rows.admin === 0) {
+        res.status(400).json({
+          message: "User is not admin",
+        });
       } else {
         req.user = decoded.rows;
-        // console.log(decoded);
         next();
       }
     });

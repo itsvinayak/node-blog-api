@@ -1,5 +1,6 @@
 const reviewModel = require("../models/reviews");
 const db = require("../db");
+const { nextTick } = require("process");
 
 module.exports.getAllReviews = (req, res) => {
     reviewModel
@@ -24,7 +25,6 @@ module.exports.getParticularProductReviews = (req, res) => {
 }
 
 module.exports.addReview = (req, res) => {
-  // console.log(req.user.id);
     reviewModel
     .createReview(req.params.id, req.user.id, req.body.rating, req.body.details)
     .then(res.status(201).json({ message: "review created" }))
@@ -35,38 +35,65 @@ module.exports.addReview = (req, res) => {
     );
 }; 
 
-module.exports.updateReview = (req, res) => {
-  let reqid = db.execute(`select user_id from reviews where id="${req.params.rvid}"`);
-  //
-  console.log(reqid);
-  if(reqid.user_id == req.user.id)
-    reviewModel
-    .updateReview(req.params.rvid, req.body.rating, req.body.details)
-    .then(res.status(200).json({ message: "review updated" }))
-    .catch((err) =>
-      res.status(400).send({
-        message: err,
-      })
-    );
-  else {
-    res.status(401).json({ message: "sorry you are not authorized"});
+module.exports.updateReview = async (req, res, next) => {
+  let reqid;
+  try {
+     reqid = await reviewModel.checkuser(req.params.rvid);
   }
+  catch(err){
+    console.log(err);
+  }
+
+  reqid = reqid[0][0].user_id;
+
+  if(reqid !== req.user.id){
+    res.status(400).json({
+      message: "Not authorized to update"
+    })
+  }
+
+  try{
+    await reviewModel.updateReview(req.params.rvid, req.body.rating, req.body.details);
+  }
+  catch(err){
+    res.status(400).send({
+      message: err
+    })
+  }
+  res.status(200).send({
+    message: "review updated"
+  });
+}
+
+module.exports.deleteReview = async (req, res) => {
+  let reqid;
+  try {
+     reqid = await reviewModel.checkuser(req.params.rvid);
+  }
+  catch(err){
+    console.log(err);
+  }
+
+  reqid = reqid[0][0].user_id;
+
+  if(reqid !== req.user.id && !req.user.admin){
+    res.status(400).json({
+      message: "Not authorized to delete"
+    })
+  }
+
+  try{
+    await reviewModel.deleteReview(req.params.rvid);
+  }
+  catch(err){
+    res.status(400).send({
+      message: err
+    })
+  }
+  res.status(200).send({
+    message: "review deleted"
+  });
 };
 
-module.exports.deleteReview = (req, res) => {
-  if(!req.user.admin){
-    res.status(401).json({ message: "sorry you are not admin"});
-  }
-  else {
-    reviewModel
-    .deleteReview(req.params.rvid)
-    .then(res.status(200).json({ message: "review deleted" }))
-    .catch((err) =>
-      res.status(400).send({
-        message: err,
-      })
-    );
-  }
-};
 
 

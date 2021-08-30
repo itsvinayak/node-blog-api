@@ -1,7 +1,7 @@
 const { verify } = require("jsonwebtoken");
 
 module.exports.auth = (req, res, next) => {
-  // console.log(req);
+  // ../../sql_db);
   let token = req.get("authorization");
   console.log(token);
   if (!token) {

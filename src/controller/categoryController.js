@@ -22,12 +22,8 @@ module.exports.getSingleCategory = (req, res) => {
     )
 }
 
-module.exports.addCategory = (req, res, next) => {
-  if(!req.user.admin){
-    res.status(401).json({ message: "sorry you are not admin"});
-  }
-  else {
-    categoryModel
+module.exports.addCategory = (req, res) => {
+  categoryModel
     .createCategory(req.body.name, req.body.details)
     .then(res.status(201).json({ message: "category created" }))
     .catch((err) =>
@@ -35,31 +31,20 @@ module.exports.addCategory = (req, res, next) => {
         message: err,
       })
     );
-  }
-  
 };
 
 module.exports.updateCategory = (req, res) => {
-  if(!req.user.admin){
-    res.status(401).json({ message: "sorry you are not admin"});
-  }
-  else {
-    categoryModel
-    .updateCategory(req.params.id, req.body.name, req.body.details)
-    .then(res.status(200).json({ message: "category updated" }))
-    .catch((err) =>
-      res.status(400).send({
-        message: err,
-      })
-    );
-  }
+  categoryModel
+  .updateCategory(req.params.id, req.body.name, req.body.details)
+  .then(res.status(200).json({ message: "category updated" }))
+  .catch((err) =>
+    res.status(400).send({
+      message: err,
+    })
+  );
 };
 
 module.exports.deleteCategory = (req, res) => {
-  if(!req.user.admin){
-    res.status(401).json({ message: "sorry you are not authorised"});
-  }
-  else {
     categoryModel
     .deleteCategory(req.params.id)
     .then(res.status(200).json({ message: "category deleted" }))
@@ -68,7 +53,6 @@ module.exports.deleteCategory = (req, res) => {
         message: err,
       })
     );
-  }
 };
 
 

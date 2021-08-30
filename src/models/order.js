@@ -1,53 +1,69 @@
-const db = require("../db");
+const db = require("../../db");
+const sql = require("../utils/vinayaks_sql_wrapper");
 
 class order {
-  static getSingleOrderData(id) {
-    // returning a promise
-    return db.execute(`SELECT * FROM test.order WHERE id = ${id}`);
-  }
-  static getAllOrdersData(id) {
-    return db.execute(`SELECT * FROM test.order WHERE user_id = ${id}`);
+  static getOrderByUserId(id) {
+    return sql.retrieveBy("test.order", ["user_id", id]);
   }
 
-  static deleteOrderID(id) {
-    return db.execute(`DELETE FROM test.order WHERE id = ${id}`);
+  static getOrderByOrderIdAndUserId(id, userId) {
+    return db.query(`SELECT * from test.order WHERE id=? AND user_id=?`, [
+      id,
+      userId,
+    ]);
   }
 
-  static createOrder(user_id, total_price) {
-    return db.execute(
-      `INSERT INTO test.order ( user_id, total_price) VALUES ( ${user_id}, "${String(
-        total_price
-      )}"  ) `
+  static deleteOrder(orderId, userId) {
+    return db.query(
+      `DELETE FROM test.order_product WHERE order_id = ? AND user_id = ?`,
+      [orderId, userId]
     );
   }
 
-  static updateOrder(id, name, price, details) {
-    return db.execute(
-      `UPDATE order SET name = "${String(name)}" , price = "${String(
-        price
-      )}" , details = "${String(details)}" WHERE id = ${id}`
-    );
+  static updateOrder(orderId, userId, price) {
+    let data = {
+      total_price: price,
+    };
+    return db.query(`UPDATE test.order SET ? WHERE id = ? AND user_id = ?`, [
+      data,
+      orderId,
+      userId,
+    ]);
   }
 
-  static addProductToOrder(product_data) {
-    // product_data is an object with the following properties
-    // order_id,product_id, product_count (array format)
+  static createOrder(userId, total_prices) {
+    let data = {
+      user_id: userId,
+      total_price: total_prices,
+    };
+    return sql.create("test.order", data);
+  }
+
+  static addProductToOrder(data) {
     return db.query(
       "INSERT INTO order_product ( order_id, product_id, product_count) VALUES ?",
-      [product_data]
+      [data]
+    );
+  }
+  static deleteProductFromOrder(data) {
+    return db.query(
+      `DELETE test.order_product FROM test.order_product INNER JOIN test.order ON test.order_product.order_id = test.order.id WHERE (user_id,order_id,product_id) IN ?`,
+      [[data]]
     );
   }
 
-  static getProductToOrder(order_id) {
-    return db.execute(
-      ` SELECT * FROM order_product WHERE order_id = ${order_id} `
+  static getProductsFromOrder(orderId, userId) {
+    return db.query(
+      `SELECT product_id, product_count, total_price FROM test.order_product INNER JOIN test.order ON test.order_product.order_id = test.order.id WHERE order_id = ? AND user_id = ?`,
+      [orderId, userId]
     );
   }
 
-  static deleteProductFromOrder(order_id) {
-    return db.query("DELETE FROM order_product WHERE order_id = ? ", [
-      order_id,
-    ]);
+  static getProductCountFromOrder(orderId, userId) {
+    return db.query(
+      `SELECT product_count FROM test.order_product INNER JOIN test.order ON test.order_product.order_id = test.order.id WHERE order_id = ? AND user_id = ?`,
+      [orderId, userId]
+    );
   }
 }
 
