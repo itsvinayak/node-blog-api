@@ -1,6 +1,28 @@
+const { verify } = require("jsonwebtoken");
 const orderModel = require("../models/order");
 const productModel = require("../models/product");
 const sql = require("../utils/vinayaks_sql_wrapper");
+
+const verifyUser = (user_id, order_id) => {
+  // true/false
+  return new Promise((resolve, reject) => {
+    orderModel
+      .getOrderByOrderIdAndUserId(order_id, user_id)
+      .then(([row, metadata]) => {
+        if (row.length === 0) {
+          resolve(false);
+        } else if (row[0].user_id === user_id) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        resolve(false);
+      });
+  });
+};
 
 module.exports.getSingleOrder = async (req, res, next) => {
   try {
@@ -8,6 +30,17 @@ module.exports.getSingleOrder = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "database connection error" });
+  }
+  // verify user
+  let valid = false;
+  try {
+    valid = await verifyUser(req.user.id, req.params.id);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: "auth failed" });
+  }
+  if (!valid) {
+    return res.status(400).json({ message: "auth failed" });
   }
   let order_data;
   let product_data;
@@ -107,6 +140,17 @@ module.exports.deleteOrder = async (req, res, next) => {
     console.log(err);
     return res.status(500).json({ message: "database connection error" });
   }
+  // verify user
+  let valid = false;
+  try {
+    valid = await verifyUser(req.user.id, req.params.id);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: "auth failed" });
+  }
+  if (!valid) {
+    return res.status(400).json({ message: "auth failed" });
+  }
   try {
     await orderModel.deleteOrder(req.params.id, req.user.id);
     await orderModel.deleteProductFromOrder(req.params.id, req.user.id);
@@ -144,6 +188,17 @@ module.exports.updateOrder = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "database connection error" });
+  }
+  // verify user
+  let valid = false;
+  try {
+    valid = await verifyUser(req.user.id, req.params.id);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: "auth failed" });
+  }
+  if (!valid) {
+    return res.status(400).json({ message: "auth failed" });
   }
   const add_data = [];
   const delete_data = [];
