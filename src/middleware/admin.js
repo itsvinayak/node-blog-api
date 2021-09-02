@@ -17,7 +17,7 @@ module.exports.admin = (req, res, next) => {
         });
       } else if (decoded.rows.admin === 0) {
         res.status(400).json({
-          message: "User is not admin",
+          message: "Sorry, Only admin is authorised",
         });
       } else {
         req.user = decoded.rows;

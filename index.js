@@ -3,6 +3,8 @@ const productRouters = require("./src/routes/productRoutes");
 const orderRouters = require("./src/routes/orderRoutes");
 const userRouters = require("./src/routes/userRoutes");
 const paymentRouters = require("./src/routes/paymentRoutes");
+const categoryRouters = require("./src/routes/categoryRoutes");
+const reviewRouters = require("./src/routes/reviewRoutes");
 
 // loading environment variables
 require("dotenv").config();
@@ -18,6 +20,8 @@ app.use("/products", productRouters);
 app.use("/order", orderRouters);
 app.use("/user", userRouters);
 app.use("/payment", paymentRouters);
+app.use("/category", categoryRouters);
+app.use("/product", reviewRouters);
 
 // 404 page
 app.get((req, res, next) => {

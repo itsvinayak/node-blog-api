@@ -2,6 +2,7 @@ const express = require("express");
 const reviewController = require("../controller/reviewController");
 const router = express.Router();
 
+//auth middleware to check if a user is loggedIn using bearer token
 const { auth } = require("../middleware/auth");
 
 router.get("/reviews/", reviewController.getAllReviews);
